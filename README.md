@@ -1,4 +1,14 @@
 # OpenStick Image Builder
+
+
+eMMC dump for UZ801 v3.2 based on https://github.com/LongQT-sea/OpenStick-Builder/releases/tag/v1.2
+can be downloaded here: https://ok1bt.cz/lib/exe/fetch.php?media=files:uz801-openstick-v32-ym2.bin
+
+  ```shell
+  fastboot oem reboot-edl
+  edl wf uz801-openstick-v32-ym2.bin
+  ```
+
 Image builder for MSM8916 based 4G modem dongles
 
 This builder uses the precompiled [kernel](https://pkgs.postmarketos.org/package/v24.06/postmarketos/aarch64/linux-postmarketos-qcom-msm8916) provided by [postmarketOS](https://postmarketos.org/) for Qualcomm MSM8916 devices.
