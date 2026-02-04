@@ -44,3 +44,33 @@ rm -rf dist/usr/share dist/usr/lib/cmake dist/usr/lib/pkgconfig \
     dist/usr/lib/*a dist/usr/bin/ga* dist/usr/bin/s* dist/usr/include
 
 cp -a configs/templates dist/etc/gt
+
+
+
+# adding some stuff
+# --- Python install ---
+echo "[1/4] Installing Python 3 and pip..."
+chroot "${ROOTFS}" bash -c "
+  apt-get update &&
+  apt-get install -y python3 python3-pip python3-venv
+"
+# --- esptool.py ---
+echo "[2/4] Installing esptool.py..."
+mkdir -p "${ROOTFS}/usr/local/bin"
+# stáhneme aktuální verzi esptool.py přímo z GitHubu
+wget -O "${ROOTFS}/usr/local/bin/esptool.py" https://raw.githubusercontent.com/espressif/esptool/master/esptool.py
+chmod +x "${ROOTFS}/usr/local/bin/esptool.py"
+# --- ZeroTier ---
+echo "[3/4] Installing ZeroTier..."
+chroot "${ROOTFS}" bash -c "
+  apt-get update &&
+  apt-get install -y curl gnupg &&
+  curl -s https://install.zerotier.com/ | bash
+"
+# --- WireGuard ---
+echo "[4/4] Installing WireGuard..."
+chroot "${ROOTFS}" bash -c "
+  apt-get update &&
+  apt-get install -y wireguard wireguard-tools
+"
+echo "[✔] Customization complete!"
