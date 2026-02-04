@@ -8,6 +8,19 @@ can be downloaded here: https://ok1bt.cz/lib/exe/fetch.php?media=files:uz801-ope
   fastboot oem reboot-edl
   edl wf uz801-openstick-v32-ym2.bin
   ```
+zerotier
+  ```shell
+  curl -s https://install.zerotier.com | sudo bash
+  ```
+tun is not in kernel, need to be modprobed
+/etc/rc.local
+  ```
+    # enable tun for ZeroTier
+    mkdir -p /dev/net
+    mknod /dev/net/tun c 10 200
+    chmod 666 /dev/net/tun
+    modprobe tun
+  ```
 
 Image builder for MSM8916 based 4G modem dongles
 
