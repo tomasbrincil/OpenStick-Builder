@@ -17,7 +17,6 @@ apt install -qqy --no-install-recommends \
     dnsmasq \
     hostapd \
     iptables \
-    libconfig11 \
     locales \
     modemmanager \
     netcat-traditional \
@@ -31,6 +30,28 @@ apt install -qqy --no-install-recommends \
     tzdata \
     wireguard-tools \
     wpasupplicant
+
+# Detect which libconfig package is available and install it (if any).
+# Do not abort the script if none are available.
+set +e
+CHOSEN_LIBCONFIG=""
+for p in libconfig11 libconfig9 libconfig; do
+    if apt-cache policy "$p" 2>/dev/null | grep -q 'Candidate:'; then
+        CHOSEN_LIBCONFIG="$p"
+        break
+    fi
+done
+
+if [ -n "$CHOSEN_LIBCONFIG" ]; then
+    apt install -qqy --no-install-recommends "$CHOSEN_LIBCONFIG"
+else
+    echo "Warning: no libconfig package found (libconfig11/libconfig9/libconfig)"
+fi
+set -e
+
+apt clean
+rm -rf /var/lib/apt/lists/*
+    
 apt clean
 rm -rf /var/lib/apt/lists/*
 
