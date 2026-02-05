@@ -24,6 +24,10 @@ tun is not in kernel, need to be modprobed
 
 https://github.com/LongQT-sea/OpenStick-Builder/issues/3#issuecomment-3168155016
 
+https://zebra.ddscentral.org/pub/downloads/openstick/firmware/
+
+###
+
 Image builder for MSM8916 based 4G modem dongles
 
 This builder uses the precompiled [kernel](https://pkgs.postmarketos.org/package/v24.06/postmarketos/aarch64/linux-postmarketos-qcom-msm8916) provided by [postmarketOS](https://postmarketos.org/) for Qualcomm MSM8916 devices.
