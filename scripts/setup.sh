@@ -9,27 +9,45 @@ echo "locales locales/default_environment_locale select en_US.UTF-8" | debconf-s
 echo "locales locales/locales_to_be_generated multiselect en_US.UTF-8 UTF-8" | debconf-set-selections
 rm -f "/etc/locale.gen"
 
-apt update -qqy
-apt upgrade -qqy
-apt autoremove -qqy
-apt install -qqy --no-install-recommends \
-    bridge-utils \
-    dnsmasq \
-    hostapd \
-    iptables \
-    locales \
-    modemmanager \
-    netcat-traditional \
-    net-tools \
-    network-manager \
-    openssh-server \
-    qrtr-tools \
-    rmtfs \
-    sudo \
-    systemd-timesyncd \
-    tzdata \
-    wireguard-tools \
-    wpasupplicant
+# list of packages to install (no versioned libconfig here)
+PACKAGES="\
+bridge-utils \
+dnsmasq \
+hostapd \
+iptables \
+libconfig11 \
+locales \
+modemmanager \
+netcat-traditional \
+net-tools \
+network-manager \
+openssh-server \
+qrtr-tools \
+rmtfs \
+sudo \
+systemd-timesyncd \
+tzdata \
+wireguard-tools \
+wpasupplicant
+"
+
+# install packages one by one only if they are available in the apt index
+set +e
+MISSING=""
+for p in $PACKAGES; do
+    if apt-cache show "$p" >/dev/null 2>&1; then
+        echo "Installing $p..."
+        apt install -qqy --no-install-recommends "$p"
+        rc=$?
+        if [ $rc -ne 0 ]; then
+            echo "Warning: installation of $p failed with code $rc"
+            MISSING="$MISSING $p"
+        fi
+    else
+        echo "Skipping $p — not found in apt index"
+        MISSING="$MISSING $p"
+    fi
+done
 
 # Detect which libconfig package is available and install it (if any).
 # Do not abort the script if none are available.
