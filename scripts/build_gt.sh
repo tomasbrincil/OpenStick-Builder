@@ -55,20 +55,20 @@ echo "[1/4] Installing Python 3 and pip..."
 "
 # --- esptool.py ---
 echo "[2/4] Installing esptool.py..."
-mkdir -p "${ROOTFS}/usr/local/bin"
+mkdir -p "${CHROOT}/usr/local/bin"
 # stáhneme aktuální verzi esptool.py přímo z GitHubu
-wget -O "${ROOTFS}/usr/local/bin/esptool.py" https://raw.githubusercontent.com/espressif/esptool/master/esptool.py
-chmod +x "${ROOTFS}/usr/local/bin/esptool.py"
+wget -O "${CHROOT}/usr/local/bin/esptool.py" https://raw.githubusercontent.com/espressif/esptool/master/esptool.py
+chmod +x "${CHROOT}/usr/local/bin/esptool.py"
 # --- ZeroTier ---
 echo "[3/4] Installing ZeroTier..."
-chroot "${ROOTFS}" bash -c "
+chroot "${CHROOT}" bash -c "
   apt-get update &&
   apt-get install -y curl gnupg &&
   curl -s https://install.zerotier.com/ | bash
 "
 # --- WireGuard ---
 echo "[4/4] Installing WireGuard..."
-chroot "${ROOTFS}" bash -c "
+chroot "${CHROOT}" bash -c "
   apt-get update &&
   apt-get install -y wireguard wireguard-tools
 "
