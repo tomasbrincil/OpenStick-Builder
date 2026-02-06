@@ -50,7 +50,6 @@ cp -a configs/templates dist/etc/gt
 # adding some stuff
 # --- Python install ---
 echo "[1/4] Installing Python 3 and pip..."
-chroot "${ROOTFS}" bash -c "
   apt-get update &&
   apt-get install -y python3 python3-pip python3-venv
 "
